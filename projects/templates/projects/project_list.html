@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+
+{% block title %}Projects — Marco Di Laudo{% endblock %}
+
+{% block content %}
+
+<section class="page-hero">
+  <div class="container">
+    <span class="section-label">Portfolio</span>
+    <h1 class="section-title">AI &amp; Data Projects</h1>
+    <p class="section-subtitle">Six production-grade projects spanning chatbots, agent workflows, machine learning, and full-stack web applications.</p>
+  </div>
+</section>
+
+<section class="content-section">
+  <div class="container">
+
+    <!-- Filter bar (JS-driven, no page reload) -->
+    <div class="filter-bar">
+      <button class="filter-btn active" data-filter="all">All Projects</button>
+      {% for value, label in categories %}
+      <button class="filter-btn" data-filter="{{ value }}">{{ label }}</button>
+      {% endfor %}
+    </div>
+
+    <!-- Project grid -->
+    <div class="row g-4">
+      {% for project in projects %}
+      <div class="col-md-6 col-lg-4 project-card" data-category="{{ project.category }}">
+        <div class="card-custom h-100 d-flex flex-column">
+
+          {% if project.image %}
+            <img src="{{ project.image.url }}" alt="{{ project.title }}" style="width: 100%; height: 180px; object-fit: cover; border-radius: 6px; margin-bottom: 1rem;" />
+          {% else %}
+            <div style="width: 100%; height: 140px; background: var(--bg-secondary); border-radius: 6px; margin-bottom: 1rem; display: flex; align-items: center; justify-content: center;">
+              <i class="bi bi-code-square" style="font-size: 2rem; color: var(--border);"></i>
+            </div>
+          {% endif %}
+
+          <span class="badge-category badge-{{ project.category }} mb-2">{{ project.get_category_display }}</span>
+          <h5 style="font-family: var(--font-body); font-weight: 700; margin-bottom: 0.5rem;">{{ project.title }}</h5>
+          <p style="color: var(--text-secondary); font-size: 0.88rem; flex: 1; margin-bottom: 1rem;">{{ project.one_sentence_summary }}</p>
+
+          <div class="mb-3">
+            {% for tool in project.tools_used|slice:":5" %}
+              <span class="tool-chip">{{ tool }}</span>
+            {% endfor %}
+          </div>
+
+          <a href="{{ project.get_absolute_url }}" class="btn-outline-custom" style="text-align: center; display: block;">
+            View Details →
+          </a>
+        </div>
+      </div>
+      {% empty %}
+      <div class="col-12">
+        <p class="text-muted-custom">No projects yet. Run <code>python manage.py loaddata initial_projects</code> to populate.</p>
+      </div>
+      {% endfor %}
+    </div>
+
+  </div>
+</section>
+
+{% endblock %}

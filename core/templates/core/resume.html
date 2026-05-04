@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Resume — Marco Di Laudo{% endblock %}
+
+{% block content %}
+
+<section class="page-hero">
+  <div class="container">
+    <span class="section-label">Credentials</span>
+    <h1 class="section-title">Resume</h1>
+    <p class="section-subtitle">Download or view my full resume below.</p>
+    <div class="mt-4">
+      <a href="{% static 'img/marco_dilaudo_resume.pdf' %}" download class="btn-primary-custom me-3">
+        <i class="bi bi-download me-2"></i>Download PDF
+      </a>
+      <a href="{% url 'core:contact' %}" class="btn-outline-custom">
+        <i class="bi bi-envelope me-2"></i>Contact Me
+      </a>
+    </div>
+  </div>
+</section>
+
+<section class="content-section">
+  <div class="container">
+
+    <!-- Embedded PDF viewer -->
+    <div class="mb-5">
+      <embed
+        src="{% static 'img/marco_dilaudo_resume.pdf' %}"
+        type="application/pdf"
+        class="resume-embed"
+        title="Marco Di Laudo Resume"
+      />
+      <p class="text-muted-custom mt-2" style="font-size: 0.85rem;">
+        PDF not loading? <a href="{% static 'img/marco_dilaudo_resume.pdf' %}" target="_blank">Open in new tab</a> or
+        <a href="{% static 'img/marco_dilaudo_resume.pdf' %}" download>download directly</a>.
+      </p>
+    </div>
+
+    <hr class="divider" />
+
+    <!-- Summary highlights -->
+    <div class="row g-4">
+      <div class="col-md-4">
+        <div class="card-custom">
+          <i class="bi bi-mortarboard" style="font-size: 1.5rem; color: var(--accent); margin-bottom: 0.75rem; display: block;"></i>
+          <h5>Education</h5>
+          <p style="color: var(--text-secondary); font-size: 0.9rem; margin: 0;">
+            MBA + MSIS<br>Baylor University<br>May 2026
+          </p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card-custom">
+          <i class="bi bi-briefcase" style="font-size: 1.5rem; color: var(--accent); margin-bottom: 0.75rem; display: block;"></i>
+          <h5>Experience</h5>
+          <p style="color: var(--text-secondary); font-size: 0.9rem; margin: 0;">
+            Incoming Consultant · Deloitte<br>
+            Investment Analyst Intern · Zeal Capital<br>
+            GBA President · Baylor
+          </p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card-custom">
+          <i class="bi bi-tools" style="font-size: 1.5rem; color: var(--accent); margin-bottom: 0.75rem; display: block;"></i>
+          <h5>Core Skills</h5>
+          <p style="color: var(--text-secondary); font-size: 0.9rem; margin: 0;">
+            Python · Django · LangChain<br>
+            SQL · Tableau · Excel<br>
+            AI/ML · Financial Modeling
+          </p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+{% endblock %}

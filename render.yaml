@@ -1,0 +1,27 @@
+services:
+  - type: web
+    name: marco-portfolio
+    env: python
+    buildCommand: "./build.sh"
+    startCommand: "gunicorn portfolio.wsgi:application"
+    envVars:
+      - key: DJANGO_SETTINGS_MODULE
+        value: portfolio.settings.production
+      - key: SECRET_KEY
+        generateValue: true
+      - key: GEMINI_KEY
+        sync: false
+      - key: DATABASE_URL
+        fromDatabase:
+          name: marco-portfolio-db
+          property: connectionString
+      - key: RENDER_EXTERNAL_HOSTNAME
+        fromService:
+          type: web
+          name: marco-portfolio
+          property: host
+
+databases:
+  - name: marco-portfolio-db
+    databaseName: portfolio
+    plan: free

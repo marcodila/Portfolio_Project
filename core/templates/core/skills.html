@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+{% block title %}Skills — Marco Di Laudo{% endblock %}
+
+{% block content %}
+
+<section class="page-hero">
+  <div class="container">
+    <span class="section-label">Capabilities</span>
+    <h1 class="section-title">Skills &amp; Tools</h1>
+    <p class="section-subtitle">A snapshot of the languages, frameworks, and domain knowledge I bring to every engagement.</p>
+  </div>
+</section>
+
+<section class="content-section">
+  <div class="container">
+
+    {% for category_name, skills in grouped_skills.items %}
+    <div class="mb-5">
+      <span class="section-label">{{ category_name }}</span>
+      <div class="row g-4 mt-1">
+        {% for skill in skills %}
+        <div class="col-md-6">
+          <div class="skill-bar-wrap">
+            <div class="skill-bar-label">
+              <span>
+                {% if skill.icon_class %}<i class="{{ skill.icon_class }} me-2" style="color: var(--accent);"></i>{% endif %}
+                {{ skill.name }}
+              </span>
+              <span>{{ skill.proficiency }}%</span>
+            </div>
+            <div class="skill-bar-track">
+              <div class="skill-bar-fill" data-pct="{{ skill.proficiency }}"></div>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+    {% empty %}
+    <p class="text-muted-custom">No skills added yet. Add them via the <a href="/admin/">admin panel</a>.</p>
+    {% endfor %}
+
+    <hr class="divider" />
+
+    <!-- Technologies Grid -->
+    <span class="section-label">Quick Reference</span>
+    <h2 style="font-family: var(--font-display); font-size: 1.6rem; margin: 0.5rem 0 1.5rem;">Full Tech Arsenal</h2>
+    <div style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
+      {% for category_name, skills in grouped_skills.items %}
+        {% for skill in skills %}
+          <span class="tool-chip" style="font-size: 0.8rem;">{{ skill.name }}</span>
+        {% endfor %}
+      {% endfor %}
+    </div>
+
+  </div>
+</section>
+
+{% endblock %}

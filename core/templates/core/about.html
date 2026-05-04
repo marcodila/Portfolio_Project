@@ -1,0 +1,168 @@
+{% extends 'base.html' %}
+
+{% block title %}About — Marco Di Laudo{% endblock %}
+
+{% block content %}
+
+<section class="page-hero">
+  <div class="container">
+    <span class="section-label">Background</span>
+    <h1 class="section-title">About Me</h1>
+    <p class="section-subtitle">Dual-degree graduate student at Baylor University, building at the intersection of AI, data, and business strategy.</p>
+  </div>
+</section>
+
+<section class="content-section">
+  <div class="container">
+    <div class="row g-5">
+
+      <!-- Bio -->
+      <div class="col-lg-7">
+        <span class="section-label">Bio</span>
+        <h2 style="font-family: var(--font-display); font-size: 1.8rem; margin-bottom: 1.25rem;">The Full Picture</h2>
+        <p>
+          I'm Marco Di Laudo — a Canadian-born, Texas-based graduate student completing a dual
+          MBA/MSIS degree at Baylor University (May 2026). My academic and professional work sits
+          at the intersection of applied AI, quantitative finance, and business strategy.
+        </p>
+        <p style="color: var(--text-secondary);">
+          After Baylor, I'll be joining Deloitte as a consultant, where I plan to apply the same
+          problem-solving approach I've developed in graduate school: understand the business problem
+          first, then choose the right tool — whether that's a LangChain agent, a scikit-learn
+          model, or a well-structured spreadsheet.
+        </p>
+        <p style="color: var(--text-secondary);">
+          Outside of work and school, I'm an avid golfer, follow macro/monetary policy closely,
+          enjoy live music festivals, and maintain a personal investment portfolio with a focus on
+          long-term equity and alternatives. I believe the best analysts are curious people who
+          read broadly — not just within their domain.
+        </p>
+
+        <hr class="divider" />
+
+        <!-- Education -->
+        <span class="section-label">Education</span>
+        <h3 style="font-family: var(--font-display); font-size: 1.4rem; margin-bottom: 1.25rem;">Academic Background</h3>
+
+        <div class="card-custom mb-3">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 0.5rem;">
+            <div>
+              <div style="font-weight: 700;">Baylor University — Hankamer School of Business</div>
+              <div style="color: var(--text-secondary); font-size: 0.9rem;">MBA &amp; MSIS (Master of Science in Information Systems)</div>
+            </div>
+            <span class="badge-category badge-ml">May 2026</span>
+          </div>
+          <ul style="margin-top: 0.75rem; color: var(--text-secondary); font-size: 0.9rem; padding-left: 1.25rem;">
+            <li>Dual-degree: MBA + MSIS completed concurrently</li>
+            <li>Focus: AI applications, data analytics, financial modeling</li>
+            <li>President, Graduate Business Association</li>
+            <li>CPT internship: Zeal Capital Management</li>
+          </ul>
+        </div>
+
+        <div class="card-custom">
+          <div style="font-weight: 700;">[Undergraduate Institution]</div>
+          <div style="color: var(--text-secondary); font-size: 0.9rem;">[Undergraduate Degree] — [Graduation Year]</div>
+          <p style="margin-top: 0.5rem; color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 0;">
+            [Marco: add your undergraduate details here]
+          </p>
+        </div>
+      </div>
+
+      <!-- Sidebar: Quick Facts & Interests -->
+      <div class="col-lg-4 offset-lg-1">
+        <div class="card-custom mb-4">
+          <span class="section-label">Quick Facts</span>
+          <ul style="list-style: none; padding: 0; margin: 0.5rem 0 0; font-size: 0.9rem;">
+            <li style="padding: 0.5rem 0; border-bottom: 1px solid var(--border); color: var(--text-secondary);">
+              <i class="bi bi-geo-alt text-accent me-2"></i> Waco, TX (Canadian citizen)
+            </li>
+            <li style="padding: 0.5rem 0; border-bottom: 1px solid var(--border); color: var(--text-secondary);">
+              <i class="bi bi-mortarboard text-accent me-2"></i> MBA/MSIS · Baylor · 2026
+            </li>
+            <li style="padding: 0.5rem 0; border-bottom: 1px solid var(--border); color: var(--text-secondary);">
+              <i class="bi bi-briefcase text-accent me-2"></i> Incoming · Deloitte Consulting
+            </li>
+            <li style="padding: 0.5rem 0; color: var(--text-secondary);">
+              <i class="bi bi-translate text-accent me-2"></i> English &amp; [Other Languages]
+            </li>
+          </ul>
+        </div>
+
+        <div class="card-custom mb-4">
+          <span class="section-label">Interests</span>
+          <div class="mt-2">
+            {% for interest in interests %}
+            <span class="tool-chip" style="margin: 0.2rem;">{{ interest }}</span>
+            {% endfor %}
+          </div>
+        </div>
+
+        <div class="card-custom">
+          <span class="section-label">Connect</span>
+          <div class="mt-2 d-flex flex-column gap-2">
+            <a href="https://linkedin.com/in/marcodilaudo" target="_blank" rel="noopener" class="btn-outline-custom" style="text-align: center;">
+              <i class="bi bi-linkedin me-2"></i>LinkedIn
+            </a>
+            <a href="https://github.com/marcodila" target="_blank" rel="noopener" class="btn-outline-custom" style="text-align: center;">
+              <i class="bi bi-github me-2"></i>GitHub
+            </a>
+            <a href="{% url 'core:contact' %}" class="btn-primary-custom" style="text-align: center;">
+              <i class="bi bi-envelope me-2"></i>Email Me
+            </a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <hr class="divider" />
+
+    <!-- Experience Timeline -->
+    <span class="section-label">Experience</span>
+    <h2 style="font-family: var(--font-display); font-size: 1.8rem; margin-bottom: 2rem;">Career Timeline</h2>
+
+    <div class="timeline" style="max-width: 680px;">
+      <div class="timeline-item">
+        <div class="timeline-date">Summer 2026 — Present</div>
+        <div class="timeline-role">Consultant</div>
+        <div class="timeline-org">Deloitte</div>
+        <p style="color: var(--text-secondary); font-size: 0.9rem; margin: 0;">
+          Incoming position post-graduation. Practice area TBD.
+        </p>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-date">2025</div>
+        <div class="timeline-role">Investment Analyst Intern (CPT)</div>
+        <div class="timeline-org">Zeal Capital Management</div>
+        <p style="color: var(--text-secondary); font-size: 0.9rem; margin: 0;">
+          Conducted quantitative research and portfolio analysis. Built financial models
+          and contributed to investment memoranda. [Marco: expand with specifics.]
+        </p>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-date">2024 — 2026</div>
+        <div class="timeline-role">President</div>
+        <div class="timeline-org">Graduate Business Association, Baylor University</div>
+        <p style="color: var(--text-secondary); font-size: 0.9rem; margin: 0;">
+          Led the graduate business student organization, organized networking events,
+          case competitions, and industry speaker series. [Marco: add numbers/outcomes.]
+        </p>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-date">[Previous Role Year]</div>
+        <div class="timeline-role">[Previous Role Title]</div>
+        <div class="timeline-org">[Previous Organization]</div>
+        <p style="color: var(--text-secondary); font-size: 0.9rem; margin: 0;">
+          [Marco: fill in additional experience here]
+        </p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+{% endblock %}

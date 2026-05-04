@@ -1,0 +1,156 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ project.title }} — Marco Di Laudo{% endblock %}
+{% block meta_description %}{{ project.one_sentence_summary }}{% endblock %}
+
+{% block content %}
+
+<section class="page-hero">
+  <div class="container">
+    <a href="{% url 'projects:list' %}" style="font-family: var(--font-mono); font-size: 0.8rem; color: var(--text-secondary); display: inline-flex; align-items: center; gap: 0.4rem; margin-bottom: 1rem;">
+      <i class="bi bi-arrow-left"></i> All Projects
+    </a>
+
+    <span class="badge-category badge-{{ project.category }} mb-3">{{ project.get_category_display }}</span>
+
+    <!-- 1. Project Title -->
+    <h1 class="section-title">{{ project.title }}</h1>
+
+    <!-- 2. One-Sentence Summary -->
+    <p class="section-subtitle" style="max-width: 720px; font-size: 1.1rem; line-height: 1.7;">{{ project.one_sentence_summary }}</p>
+
+    <div class="mt-4 d-flex gap-3 flex-wrap">
+      {% if project.github_url %}
+        <a href="{{ project.github_url }}" target="_blank" rel="noopener" class="btn-primary-custom">
+          <i class="bi bi-github me-2"></i>View on GitHub
+        </a>
+      {% endif %}
+      {% if project.demo_url %}
+        <a href="{{ project.demo_url }}" target="_blank" rel="noopener" class="btn-outline-custom">
+          <i class="bi bi-box-arrow-up-right me-2"></i>Live Demo
+        </a>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+<section class="content-section">
+  <div class="container">
+    <div class="row g-5">
+
+      <!-- Main content column -->
+      <div class="col-lg-8">
+
+        <!-- 9. Screenshot / Visual -->
+        {% if project.image %}
+        <div class="mb-5">
+          <img src="{{ project.image.url }}" alt="{{ project.title }} screenshot"
+               style="width: 100%; border-radius: var(--radius); border: 1px solid var(--border);" />
+        </div>
+        {% endif %}
+
+        <!-- 3. Business Problem -->
+        <div class="mb-5">
+          <span class="section-label">Business Problem</span>
+          <div style="color: var(--text-secondary); line-height: 1.8; margin-top: 0.5rem;">{{ project.business_problem|linebreaksbr }}</div>
+        </div>
+
+        <hr class="divider" />
+
+        <!-- 5. Key Features -->
+        <div class="mb-5">
+          <span class="section-label">Key Features</span>
+          <ul style="list-style: none; padding: 0; margin-top: 0.75rem;">
+            {% for feature in project.key_features %}
+            <li style="padding: 0.5rem 0; border-bottom: 1px solid var(--border); color: var(--text-secondary); display: flex; gap: 0.75rem;">
+              <i class="bi bi-check2" style="color: var(--accent); flex-shrink: 0; margin-top: 0.2rem;"></i>
+              <span>{{ feature }}</span>
+            </li>
+            {% endfor %}
+          </ul>
+        </div>
+
+        <hr class="divider" />
+
+        <!-- 6. Role & Contribution -->
+        <div class="mb-5">
+          <span class="section-label">My Role &amp; Contribution</span>
+          <div style="color: var(--text-secondary); line-height: 1.8; margin-top: 0.5rem;">{{ project.role_and_contribution|linebreaksbr }}</div>
+        </div>
+
+        <hr class="divider" />
+
+        <!-- 7. Biggest Challenge -->
+        <div class="mb-5">
+          <span class="section-label">Biggest Challenge</span>
+          <div class="card-custom" style="border-left: 3px solid var(--accent); margin-top: 0.5rem;">
+            <div style="color: var(--text-secondary); line-height: 1.8;">{{ project.biggest_challenge|linebreaksbr }}</div>
+          </div>
+        </div>
+
+        <hr class="divider" />
+
+        <!-- 8. What I Learned -->
+        <div class="mb-5">
+          <span class="section-label">What I Learned</span>
+          <div style="color: var(--text-secondary); line-height: 1.8; margin-top: 0.5rem;">{{ project.what_i_learned|linebreaksbr }}</div>
+        </div>
+
+      </div>
+
+      <!-- Sidebar -->
+      <div class="col-lg-4">
+        <div style="position: sticky; top: 90px;">
+
+          <!-- 4. Tools Used -->
+          <div class="card-custom mb-4">
+            <span class="section-label">Tools &amp; Technologies</span>
+            <div class="mt-2">
+              {% for tool in project.tools_used %}
+                <span class="tool-chip" style="font-size: 0.82rem; margin: 0.2rem;">{{ tool }}</span>
+              {% endfor %}
+            </div>
+          </div>
+
+          <!-- 10. Links -->
+          <div class="card-custom mb-4">
+            <span class="section-label">Links</span>
+            <div class="d-flex flex-column gap-2 mt-2">
+              {% if project.github_url %}
+              <a href="{{ project.github_url }}" target="_blank" rel="noopener" class="btn-primary-custom" style="text-align: center;">
+                <i class="bi bi-github me-2"></i>GitHub Repository
+              </a>
+              {% else %}
+              <div style="color: var(--text-secondary); font-size: 0.85rem; text-align: center; padding: 0.5rem;">
+                <i class="bi bi-info-circle me-1"></i>This project lives in this portfolio repo
+              </div>
+              {% endif %}
+              {% if project.demo_url %}
+              <a href="{{ project.demo_url }}" target="_blank" rel="noopener" class="btn-outline-custom" style="text-align: center;">
+                <i class="bi bi-box-arrow-up-right me-2"></i>Live Demo
+              </a>
+              {% endif %}
+            </div>
+          </div>
+
+          <!-- Back / Next -->
+          <div class="card-custom">
+            <span class="section-label">Explore</span>
+            <div class="d-flex flex-column gap-2 mt-2">
+              <a href="{% url 'projects:list' %}" class="btn-outline-custom" style="text-align: center;">
+                <i class="bi bi-grid me-2"></i>All Projects
+              </a>
+              <a href="{% url 'chatbot:chat' %}" class="btn-outline-custom" style="text-align: center;">
+                <i class="bi bi-robot me-2"></i>Ask the AI
+              </a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+{% endblock %}
