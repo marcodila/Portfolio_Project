@@ -1,15 +1,25 @@
+import os
 from django.db import models
 from django.urls import reverse
 
 
 class Project(models.Model):
     CATEGORY_CHOICES = [
+        # AI / Engineering
         ('chatbot', 'Chatbot'),
         ('workflow', 'Agent Workflow'),
         ('langchain', 'LangChain Agent'),
         ('media', 'AI Media'),
         ('ml', 'Machine Learning'),
         ('web', 'Web Application'),
+        ('quant', 'Quant Finance'),
+        # Finance & Business
+        ('equity_research', 'Equity Research'),
+        ('dashboard', 'Dashboard'),
+        ('financial_model', 'Financial Model'),
+        ('case_competition', 'Case Competition'),
+        ('hackathon', 'Hackathon'),
+        ('presentation', 'Presentation'),
     ]
 
     title = models.CharField(max_length=200)
@@ -17,8 +27,8 @@ class Project(models.Model):
     category = models.CharField(max_length=50, choices=CATEGORY_CHOICES)
     one_sentence_summary = models.CharField(max_length=300)
     business_problem = models.TextField()
-    tools_used = models.JSONField(default=list)     # e.g. ["Python", "LangChain", "FAISS"]
-    key_features = models.JSONField(default=list)   # bullet strings
+    tools_used = models.JSONField(default=list)
+    key_features = models.JSONField(default=list)
     role_and_contribution = models.TextField()
     biggest_challenge = models.TextField()
     what_i_learned = models.TextField()
@@ -37,3 +47,43 @@ class Project(models.Model):
 
     def get_absolute_url(self):
         return reverse('projects:detail', kwargs={'slug': self.slug})
+
+
+class ProjectFile(models.Model):
+    """
+    Arbitrary file attachment for a project — PDF decks, Excel models,
+    PowerPoint presentations, CSV data, etc.
+    Multiple files can be attached to a single project via the admin inline.
+    """
+    FILE_TYPE_ICONS = {
+        '.pdf':  'bi-file-earmark-pdf',
+        '.xlsx': 'bi-file-earmark-spreadsheet',
+        '.xls':  'bi-file-earmark-spreadsheet',
+        '.pptx': 'bi-file-earmark-slides',
+        '.ppt':  'bi-file-earmark-slides',
+        '.docx': 'bi-file-earmark-word',
+        '.doc':  'bi-file-earmark-word',
+        '.csv':  'bi-file-earmark-bar-graph',
+        '.zip':  'bi-file-earmark-zip',
+    }
+
+    project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name='files')
+    label = models.CharField(max_length=100, help_text='Button label, e.g. "Download Deck" or "View Model"')
+    file = models.FileField(upload_to='project_files/')
+    order = models.PositiveIntegerField(default=0)
+
+    class Meta:
+        ordering = ['order', 'label']
+
+    def __str__(self):
+        return f"{self.project.title} — {self.label}"
+
+    @property
+    def icon_class(self) -> str:
+        """Bootstrap Icons class based on file extension."""
+        ext = os.path.splitext(self.file.name)[1].lower()
+        return self.FILE_TYPE_ICONS.get(ext, 'bi-file-earmark')
+
+    @property
+    def extension(self) -> str:
+        return os.path.splitext(self.file.name)[1].lstrip('.').upper()

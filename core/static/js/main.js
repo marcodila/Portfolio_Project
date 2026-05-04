@@ -40,12 +40,16 @@ document.addEventListener('DOMContentLoaded', () => {
       filterBtns.forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
 
-      const filter = btn.dataset.filter;
+      const filter = btn.dataset.filter;      // exact category slug or 'all'
+      const group  = btn.dataset.filterGroup; // 'ai' or 'finance'
+
       projectCards.forEach(card => {
-        if (filter === 'all' || card.dataset.category === filter) {
+        if (filter === 'all') {
           card.style.display = '';
+        } else if (group) {
+          card.style.display = card.dataset.group === group ? '' : 'none';
         } else {
-          card.style.display = 'none';
+          card.style.display = card.dataset.category === filter ? '' : 'none';
         }
       });
     });

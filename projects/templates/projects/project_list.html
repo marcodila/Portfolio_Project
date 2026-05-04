@@ -17,7 +17,9 @@
 
     <!-- Filter bar (JS-driven, no page reload) -->
     <div class="filter-bar">
-      <button class="filter-btn active" data-filter="all">All Projects</button>
+      <button class="filter-btn active" data-filter="all">All</button>
+      <button class="filter-btn" data-filter-group="ai">AI / Engineering</button>
+      <button class="filter-btn" data-filter-group="finance">Finance &amp; Business</button>
       {% for value, label in categories %}
       <button class="filter-btn" data-filter="{{ value }}">{{ label }}</button>
       {% endfor %}
@@ -26,7 +28,7 @@
     <!-- Project grid -->
     <div class="row g-4">
       {% for project in projects %}
-      <div class="col-md-6 col-lg-4 project-card" data-category="{{ project.category }}">
+      <div class="col-md-6 col-lg-4 project-card" data-category="{{ project.category }}" data-group="{% if project.category in 'chatbot,workflow,langchain,media,ml,web,quant' %}ai{% else %}finance{% endif %}">
         <div class="card-custom h-100 d-flex flex-column">
 
           {% if project.image %}

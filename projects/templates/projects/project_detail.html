@@ -19,6 +19,7 @@
     <!-- 2. One-Sentence Summary -->
     <p class="section-subtitle" style="max-width: 720px; font-size: 1.1rem; line-height: 1.7;">{{ project.one_sentence_summary }}</p>
 
+    <!-- Hero CTAs: GitHub, Demo, and any attached files -->
     <div class="mt-4 d-flex gap-3 flex-wrap">
       {% if project.github_url %}
         <a href="{{ project.github_url }}" target="_blank" rel="noopener" class="btn-primary-custom">
@@ -30,6 +31,11 @@
           <i class="bi bi-box-arrow-up-right me-2"></i>Live Demo
         </a>
       {% endif %}
+      {% for f in project.files.all %}
+        <a href="{{ f.file.url }}" target="_blank" rel="noopener" class="btn-outline-custom">
+          <i class="bi {{ f.icon_class }} me-2"></i>{{ f.label }}
+        </a>
+      {% endfor %}
     </div>
   </div>
 </section>
@@ -112,6 +118,24 @@
             </div>
           </div>
 
+          <!-- File Attachments -->
+          {% if project.files.all %}
+          <div class="card-custom mb-4">
+            <span class="section-label">Downloads</span>
+            <div class="d-flex flex-column gap-2 mt-2">
+              {% for f in project.files.all %}
+              <a href="{{ f.file.url }}" target="_blank" rel="noopener"
+                 class="btn-primary-custom"
+                 style="text-align: center; display: flex; align-items: center; justify-content: center; gap: 0.5rem;">
+                <i class="bi {{ f.icon_class }}"></i>
+                <span>{{ f.label }}</span>
+                <span style="font-family: var(--font-mono); font-size: 0.7rem; opacity: 0.7;">{{ f.extension }}</span>
+              </a>
+              {% endfor %}
+            </div>
+          </div>
+          {% endif %}
+
           <!-- 10. Links -->
           <div class="card-custom mb-4">
             <span class="section-label">Links</span>
@@ -122,7 +146,7 @@
               </a>
               {% else %}
               <div style="color: var(--text-secondary); font-size: 0.85rem; text-align: center; padding: 0.5rem;">
-                <i class="bi bi-info-circle me-1"></i>This project lives in this portfolio repo
+                <i class="bi bi-info-circle me-1"></i>No public repo for this project
               </div>
               {% endif %}
               {% if project.demo_url %}
@@ -133,7 +157,7 @@
             </div>
           </div>
 
-          <!-- Back / Next -->
+          <!-- Back / Explore -->
           <div class="card-custom">
             <span class="section-label">Explore</span>
             <div class="d-flex flex-column gap-2 mt-2">
