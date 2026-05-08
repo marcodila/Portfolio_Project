@@ -50,7 +50,7 @@ Marco is a dual-degree graduate student at Baylor University (Hankamer School of
 - Expected graduation: May 2026
 - Relevant coursework: Advanced Python for AI, Machine Learning, Data Management Systems, Corporate Finance, Strategic Management
 
-### [Undergraduate Institution]
+### McMaster University — DeGroote School of Business
 - Bachelor of Commerce (Finance)
 - Graduation: April 2024
 - Varsity Baseball Athlete — OUA Second Team All-Star
