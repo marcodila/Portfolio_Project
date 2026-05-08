@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}Marco Di Laudo — AI & Data Specialist{% endblock %}
 
@@ -8,32 +9,40 @@
 <section class="hero">
   <div class="container">
     <div class="row align-items-center">
-      <div class="col-lg-7">
+
+      <!-- Left: text -->
+      <div class="col-lg-6">
         <span class="hero-eyebrow">MBA / MSIS · Baylor University · May 2026</span>
         <h1 class="hero-name">Marco<br>Di Laudo</h1>
         <p class="hero-title">AI &amp; Data Specialist &nbsp;·&nbsp; Incoming Consultant @ Deloitte</p>
         <p class="hero-value">
           I build intelligent systems that bridge quantitative analysis and decision-making —
           from RAG-powered chatbots to automated agent workflows. This portfolio documents
-          six production-grade AI projects built during my graduate studies.
+          production-grade AI projects built during my graduate studies.
         </p>
         <div class="hero-cta">
           <a href="{% url 'projects:list' %}" class="btn-primary-custom">View Projects</a>
           <a href="{% url 'core:contact' %}" class="btn-outline-custom">Get in Touch</a>
         </div>
       </div>
-      <div class="col-lg-4 offset-lg-1 d-none d-lg-block">
-        <!-- Terminal-style decorative block -->
-        <div class="card-custom" style="font-family: var(--font-mono); font-size: 0.8rem; color: var(--text-secondary);">
-          <div style="color: var(--accent); margin-bottom: 0.75rem;">$ python portfolio.py</div>
-          <div>Loading knowledge base<span style="color: var(--accent);">...</span></div>
-          <div style="margin: 0.25rem 0;">FAISS index ready <span style="color: var(--success);">✓</span></div>
-          <div>LangChain chain initialized <span style="color: var(--success);">✓</span></div>
-          <div style="margin-top: 0.5rem; color: var(--text-primary);">Projects: <span style="color: var(--accent);">6</span></div>
-          <div>Stack: <span style="color: var(--accent);">Django · LangChain · FAISS</span></div>
-          <div style="margin-top: 0.75rem; color: var(--text-primary);">Ready. <span class="text-accent">_</span></div>
+
+      <!-- Right: headshot -->
+      <div class="col-lg-5 offset-lg-1 d-none d-lg-flex justify-content-center">
+        <div class="hero-portrait-wrap">
+          <div class="hero-portrait-ring"></div>
+          <div class="hero-portrait-img-wrap">
+            <img src="{% static 'img/MarcoHeadshot.jpg' %}"
+                 alt="Marco Di Laudo"
+                 class="hero-portrait-img" />
+          </div>
+          <!-- Floating credential badge -->
+          <div class="hero-portrait-badge">
+            <span class="hero-badge-icon"><i class="bi bi-patch-check-fill"></i></span>
+            <span class="hero-badge-text">MBA · MSIS · Baylor</span>
+          </div>
         </div>
       </div>
+
     </div>
   </div>
 </section>

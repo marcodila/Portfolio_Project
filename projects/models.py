@@ -70,6 +70,13 @@ class ProjectFile(models.Model):
     project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name='files')
     label = models.CharField(max_length=100, help_text='Button label, e.g. "Download Deck" or "View Model"')
     file = models.FileField(upload_to='project_files/')
+
+    def save(self, *args, **kwargs):
+        # Ensure the upload directory exists before the file system write
+        from django.conf import settings
+        upload_dir = settings.MEDIA_ROOT / 'project_files'
+        upload_dir.mkdir(parents=True, exist_ok=True)
+        super().save(*args, **kwargs)
     order = models.PositiveIntegerField(default=0)
 
     class Meta:

@@ -688,6 +688,79 @@ footer a:hover {
   border: 1px solid var(--border);
 }
 
+/* ── Hero Portrait ────────────────────────────────────────────── */
+
+.hero-portrait-wrap {
+  position: relative;
+  width: 340px;
+  height: 340px;
+  flex-shrink: 0;
+}
+
+/* Outer dashed accent ring — spaced away from the photo */
+.hero-portrait-ring {
+  position: absolute;
+  inset: -14px;
+  border-radius: 50%;
+  border: 1.5px dashed rgba(79, 142, 247, 0.45);
+  background: transparent;
+  animation: portrait-ring-spin 30s linear infinite;
+}
+
+@keyframes portrait-ring-spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* Photo container — perfect circle */
+.hero-portrait-img-wrap {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 3px solid var(--accent);
+  box-shadow:
+    0 0 0 6px rgba(79, 142, 247, 0.12),
+    0 24px 64px rgba(0, 0, 0, 0.55);
+}
+
+.hero-portrait-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  display: block;
+}
+
+/* Floating credential badge — bottom-left of the portrait */
+.hero-portrait-badge {
+  position: absolute;
+  bottom: 8px;
+  left: -24px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 0.45rem 1rem 0.45rem 0.65rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+  white-space: nowrap;
+}
+
+.hero-badge-icon {
+  color: var(--accent);
+  font-size: 1rem;
+  line-height: 1;
+}
+
+.hero-badge-text {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--text-secondary);
+  letter-spacing: 0.06em;
+}
+
 /* ── Page sections ────────────────────────────────────────────── */
 
 .page-hero {

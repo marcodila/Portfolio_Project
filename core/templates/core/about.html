@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}About — Marco Di Laudo{% endblock %}
 
@@ -6,9 +7,16 @@
 
 <section class="page-hero">
   <div class="container">
-    <span class="section-label">Background</span>
-    <h1 class="section-title">About Me</h1>
-    <p class="section-subtitle">Dual-degree graduate student at Baylor University, building at the intersection of AI, data, and business strategy.</p>
+    <div class="d-flex align-items-center gap-4 flex-wrap">
+      <img src="{% static 'img/MarcoHeadshot.jpg' %}"
+           alt="Marco Di Laudo"
+           style="width: 80px; height: 80px; border-radius: 50%; object-fit: cover; object-position: center top; border: 2px solid var(--accent); flex-shrink: 0;" />
+      <div>
+        <span class="section-label">Background</span>
+        <h1 class="section-title" style="margin-bottom: 0.25rem;">About Me</h1>
+        <p class="section-subtitle">Dual-degree graduate student at Baylor University, building at the intersection of AI, data, and business strategy.</p>
+      </div>
+    </div>
   </div>
 </section>
 
