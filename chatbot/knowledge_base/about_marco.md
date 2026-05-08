@@ -12,7 +12,7 @@ Outside of academic and professional work, Marco is an avid golfer, baseball pla
 
 ## After Graduation
 
-Marco is evaluating several opportunities in Finance for this summer after graduating in May 2026. He is interested in applying AI and data capabilities to real business problems in consulting engagements.
+Marco is evaluating offers in private banking and wealth management for July 2026. He is interested in roles that combine his quantitative finance background with his AI and data capabilities.
 
 ## Contact Information
 

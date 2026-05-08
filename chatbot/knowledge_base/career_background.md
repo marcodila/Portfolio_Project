@@ -2,7 +2,7 @@
 
 ## Current Status
 
-Marco is a dual-degree graduate student at Baylor University (Hankamer School of Business) completing an MBA and MSIS simultaneously, graduating in May 2026. He is actively evaluating full-time opportunities in investment management, wealth management, and technology-driven finance roles.
+Marco is a dual-degree graduate student at Baylor University (Hankamer School of Business) completing an MBA and MSIS simultaneously, graduating in May 2026. He is actively evaluating offers in private banking and wealth management for July 2026.
 
 ## Professional Experience
 
@@ -59,9 +59,9 @@ Marco is a dual-degree graduate student at Baylor University (Hankamer School of
 ## Career Direction
 
 He is particularly interested in:
+- Private Banking & Wealth Management (primary focus, July 2026)
 - Investment Management & Asset Management
-- Wealth Management & Private Banking
-- Technology & Strategy Consulting
+- Technology-driven Finance roles
 
 ## Core Strengths
 
