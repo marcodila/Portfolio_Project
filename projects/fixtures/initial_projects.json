@@ -1,179 +1,535 @@
 [
-  {
-    "model": "projects.project",
-    "pk": 1,
-    "fields": {
-      "title": "RAG Portfolio Chatbot",
-      "slug": "rag-portfolio-chatbot",
-      "category": "chatbot",
-      "one_sentence_summary": "A production-ready Retrieval-Augmented Generation chatbot embedded in this Django portfolio that answers questions about Marco's background, projects, and skills in real time.",
-      "business_problem": "Recruiters and hiring managers spend limited time on portfolio sites before moving on. A static site forces them to hunt for the information they need. The business problem: how do you give every visitor an on-demand, intelligent guide to your portfolio without manual effort?\n\nThis chatbot solves that by combining a curated knowledge base with a RAG pipeline — so visitors can ask natural-language questions and get precise, grounded answers rather than scrolling through pages.",
-      "tools_used": ["Python", "Django", "LangChain", "FAISS", "OpenAI GPT-4o-mini", "text-embedding-3-small", "JavaScript (AJAX)", "Bootstrap 5"],
-      "key_features": [
-        "RAG pipeline: documents are chunked, embedded with OpenAI text-embedding-3-small, and stored in a FAISS vector index",
-        "LangChain RetrievalQA chain with a custom system prompt tuned to Marco's portfolio context",
-        "Dual interface: full-page chat at /chat/ and a floating widget available on every page",
-        "Session persistence via UUID stored in localStorage — conversation context carries across page navigation",
-        "Rate limiting: max 20 messages per session enforced server-side (HTTP 429 response)",
-        "Full audit trail: every user message and assistant reply saved to ChatMessage model in Django",
-        "FAISS index rebuilt on every Render deploy via custom management command (build_rag_index)",
-        "Zero CDN dependency for the AI stack — all inference via OpenAI API"
-      ],
-      "role_and_contribution": "Solo project — designed and built end-to-end. Responsibilities included:\n\n- Architecting the knowledge base (5 Markdown files covering background, projects, skills, career, and site navigation)\n- Building the LangChain RAG chain with a custom PromptTemplate\n- Implementing the Django JSON API endpoint with session tracking and rate limiting\n- Writing the AJAX-powered chat widget (widget + full-page view)\n- Configuring Render deployment with the FAISS rebuild step in build.sh",
-      "biggest_challenge": "Making the RAG system give grounded, accurate answers about a real person without hallucinating. Early iterations of the system prompt would sometimes fabricate details not present in the knowledge base.\n\nThe solution was two-fold: (1) a tightly scoped system prompt with an explicit 'if you don't know, say so' instruction, and (2) careful chunking of the knowledge base with 50-token overlap so context windows don't split mid-sentence during retrieval.",
-      "what_i_learned": "RAG is deceptively simple to demo and genuinely hard to get right. The quality of the knowledge base content matters far more than the model choice — a well-written, structured Markdown file retrieves better than an unstructured data dump.\n\nI also deepened my understanding of LangChain's retrieval abstractions and the tradeoffs between different vector store backends. FAISS is fast and free but requires manual persistence; a managed vector DB would be the right call for a multi-user production system.",
-      "image": null,
-      "github_url": "",
-      "demo_url": "",
-      "order": 1,
-      "is_featured": true,
-      "created_at": "2025-01-01T00:00:00Z"
-    }
-  },
-  {
-    "model": "projects.project",
-    "pk": 2,
-    "fields": {
-      "title": "n8n Automated Agent Workflow",
-      "slug": "n8n-agent-workflow",
-      "category": "workflow",
-      "one_sentence_summary": "A no-code/low-code automation workflow built in n8n that chains AI tools, APIs, and data sources to execute a multi-step business process end-to-end without manual intervention.",
-      "business_problem": "Many business workflows involve repetitive, multi-step processes — pulling data from one source, transforming it, routing it through an AI model, and pushing results somewhere else. Manually executing these chains is slow, error-prone, and doesn't scale.\n\nThis project demonstrates how n8n's visual workflow builder can automate a real business process, with AI nodes (Google Gemini / OpenAI) embedded at the decision points where intelligence is actually needed.",
-      "tools_used": ["n8n", "Google AI Studio", "OpenAI API", "REST APIs", "Webhooks", "JavaScript (n8n expressions)", "JSON"],
-      "key_features": [
-        "Multi-step workflow triggered by a webhook or schedule",
-        "AI node integrated at a key decision point (classification, summarization, or extraction)",
-        "Data transformation between steps using n8n's built-in expression engine",
-        "Error handling and retry logic configured at each node",
-        "Output routed to a destination (email, spreadsheet, database, or Slack) automatically",
-        "[Marco: add the specific use case and any additional nodes from your actual workflow]"
-      ],
-      "role_and_contribution": "Solo project — designed the workflow architecture, configured each n8n node, wrote any custom JavaScript expressions, and integrated the AI provider.\n\n[Marco: add specific context about what the workflow does and what business scenario it addresses]",
-      "biggest_challenge": "Handling edge cases in the data flowing between nodes — n8n's expression engine is powerful but requires careful attention to data types and nullability. Debugging a 12-node workflow when a transformation fails mid-chain required building in intermediate logging nodes early.\n\n[Marco: replace with your actual biggest challenge from this project]",
-      "what_i_learned": "Visual workflow builders are underrated by engineers who default to writing code for everything. n8n allowed me to prototype and iterate on a multi-step AI workflow in hours rather than days. The key insight: use code nodes only for logic that the visual interface can't express cleanly.\n\n[Marco: add your specific learnings]",
-      "image": null,
-      "github_url": "https://github.com/marcodila/n8n-agent-workflow",
-      "demo_url": "",
-      "order": 2,
-      "is_featured": true,
-      "created_at": "2025-01-01T00:00:00Z"
-    }
-  },
-  {
-    "model": "projects.project",
-    "pk": 3,
-    "fields": {
-      "title": "LangChain Conversational Agent",
-      "slug": "langchain-agent",
-      "category": "langchain",
-      "one_sentence_summary": "A tool-augmented LangChain agent that can reason over multiple data sources and take actions — going beyond simple chat to complete multi-step tasks autonomously.",
-      "business_problem": "Standard chatbots answer questions but cannot take actions or access live data. This project explores the agent paradigm: an LLM with access to a curated set of tools (web search, document retrieval, calculation) that can plan and execute multi-step tasks to accomplish a goal.\n\nThe business motivation: many knowledge-worker tasks involve gathering information from multiple sources, synthesizing it, and producing an output — exactly what a well-designed agent can automate.",
-      "tools_used": ["Python", "LangChain", "OpenAI GPT-4o-mini", "LangChain Tools", "FAISS", "Pydantic", "python-dotenv"],
-      "key_features": [
-        "ReAct-style agent loop: Reason → Act → Observe until the task is complete",
-        "Custom tool definitions with Pydantic input schemas for type safety",
-        "Conversation memory using LangChain's ConversationBufferMemory",
-        "Streaming output support for real-time response display",
-        "Graceful fallback when a tool call fails or returns no results",
-        "[Marco: describe the specific tools you built and the use case]"
-      ],
-      "role_and_contribution": "Solo project — designed the agent architecture, defined the tool schemas, wrote the agent executor logic, and built the demonstration interface.\n\n[Marco: add specifics about your actual agent's purpose and any unique implementation decisions]",
-      "biggest_challenge": "Agent reliability — getting the model to reliably select the right tool for a given sub-task and stop looping when it has enough information. Early versions would over-call tools or get stuck in reasoning loops when a tool returned ambiguous output.\n\nThe fix: strict tool descriptions, explicit stop conditions in the prompt, and a max_iterations guard on the executor.\n\n[Marco: replace with your real challenge]",
-      "what_i_learned": "Agent design is fundamentally about prompt engineering and tool design, not model choice. The single biggest improvement came from rewriting tool descriptions to be explicit about when NOT to use each tool — which immediately reduced spurious tool calls.\n\n[Marco: add your key takeaways]",
-      "image": null,
-      "github_url": "https://github.com/marcodila/langchain-agent",
-      "demo_url": "",
-      "order": 3,
-      "is_featured": true,
-      "created_at": "2025-01-01T00:00:00Z"
-    }
-  },
-  {
-    "model": "projects.project",
-    "pk": 4,
-    "fields": {
-      "title": "Google AI Studio Media Generation",
-      "slug": "google-ai-studio-media",
-      "category": "media",
-      "one_sentence_summary": "An AI-powered media generation pipeline built with Google AI Studio that produces structured content assets from a minimal input prompt.",
-      "business_problem": "Content creation is one of the highest-volume, most time-consuming tasks in modern marketing and communications workflows. This project explores how Google AI Studio's multimodal models can be used to generate structured media assets — reducing the time from brief to draft by 80%+.\n\n[Marco: replace with your specific use case — script generation, image prompting, video storyboard, etc.]",
-      "tools_used": ["Google AI Studio", "Gemini Pro", "Python", "Google Generative AI SDK", "Markdown", "Jupyter Notebook"],
-      "key_features": [
-        "Prompt engineering workflow for consistent, structured output from Gemini Pro",
-        "Multi-turn conversation to iteratively refine generated content",
-        "Output parsing and formatting pipeline for downstream use",
-        "Comparison of different prompt strategies and their output quality",
-        "[Marco: add specific features from your actual project]"
-      ],
-      "role_and_contribution": "Solo project — designed the prompting strategy, built the generation pipeline, and documented the output evaluation methodology.\n\n[Marco: replace with specifics from your actual Google AI Studio project]",
-      "biggest_challenge": "Prompt consistency — getting the model to produce reliably structured output across varied input topics without explicit output format enforcement. The solution involved few-shot examples in the system prompt and post-processing to normalize the output.\n\n[Marco: replace with your real challenge]",
-      "what_i_learned": "Google AI Studio's Gemini Pro excels at structured content generation when given explicit output format instructions. I also learned that model temperature dramatically affects creative output — lower values for structured tasks, higher for ideation.\n\n[Marco: add your real learnings]",
-      "image": null,
-      "github_url": "https://github.com/marcodila/google-ai-studio-media",
-      "demo_url": "",
-      "order": 4,
-      "is_featured": false,
-      "created_at": "2025-01-01T00:00:00Z"
-    }
-  },
-  {
-    "model": "projects.project",
-    "pk": 5,
-    "fields": {
-      "title": "Machine Learning with scikit-learn",
-      "slug": "machine-learning-scikit-learn",
-      "category": "ml",
-      "one_sentence_summary": "A supervised machine learning pipeline built with scikit-learn that predicts [target variable] from [dataset], with full feature engineering, model selection, and evaluation reporting.",
-      "business_problem": "Predictive modeling is at the core of data-driven business decisions. This project applies classical machine learning — not deep learning — to a structured dataset with a real business question: given observable features, can we reliably predict an outcome before it happens?\n\n[Marco: replace with the specific prediction problem your ML project addresses — churn, pricing, credit risk, etc.]",
-      "tools_used": ["Python", "scikit-learn", "pandas", "NumPy", "Matplotlib", "Seaborn", "Jupyter Notebook", "joblib"],
-      "key_features": [
-        "Exploratory Data Analysis (EDA) with distribution plots and correlation heatmaps",
-        "Feature engineering: encoding, scaling, and interaction terms",
-        "Model comparison: Logistic Regression, Random Forest, Gradient Boosting",
-        "Cross-validation with stratified k-fold to prevent data leakage",
-        "Evaluation: confusion matrix, ROC-AUC, precision-recall, feature importance",
-        "Model serialization with joblib for deployment",
-        "[Marco: add specifics from your actual ML project]"
-      ],
-      "role_and_contribution": "Solo project — end-to-end ownership from data cleaning through model deployment. Responsible for all EDA, feature engineering, model selection, and evaluation.\n\n[Marco: add the specific dataset and business context]",
-      "biggest_challenge": "Class imbalance in the target variable — the naive model achieved high accuracy by predicting the majority class almost exclusively. Solved using SMOTE oversampling during training and recalibrating evaluation to focus on recall and F1-score rather than raw accuracy.\n\n[Marco: replace with your real challenge]",
-      "what_i_learned": "Model selection matters less than feature engineering. Spending twice as long on the feature engineering phase and reducing model comparison effort produced better final performance than the reverse approach. Also: always check for data leakage before celebrating a high validation score.\n\n[Marco: add your specific learnings]",
-      "image": null,
-      "github_url": "https://github.com/marcodila/ml-scikit-learn",
-      "demo_url": "",
-      "order": 5,
-      "is_featured": false,
-      "created_at": "2025-01-01T00:00:00Z"
-    }
-  },
-  {
-    "model": "projects.project",
-    "pk": 6,
-    "fields": {
-      "title": "Campus SkillSwap — Django Web App",
-      "slug": "campus-skillswap",
-      "category": "web",
-      "one_sentence_summary": "A full-stack Django web application that connects university students to exchange skills peer-to-peer — think Craigslist for campus skills, with authentication, search, and messaging.",
-      "business_problem": "University campuses are full of students with complementary skills — a data science student who needs help with graphic design, a marketing student who wants to learn Python. There's no structured platform to facilitate these exchanges at scale.\n\nCampus SkillSwap addresses this by providing a marketplace where students can list skills they offer and skills they want, find matches, and coordinate exchanges through an in-app messaging system.",
-      "tools_used": ["Python", "Django", "SQLite / PostgreSQL", "Bootstrap 5", "JavaScript", "Django ORM", "Django Auth", "Pillow"],
-      "key_features": [
-        "User authentication: registration, login, profile management with avatar upload",
-        "Skill listing CRUD: create, edit, and delete skill offers and requests",
-        "Search and filter: find skills by category, availability, and keyword",
-        "Match system: express interest in another student's skill listing",
-        "In-app messaging: direct messages between matched users",
-        "Django admin panel for moderation and user management",
-        "Responsive design with Bootstrap 5 for mobile-first access"
-      ],
-      "role_and_contribution": "Solo project — full-stack development from initial ERD through deployment. Responsible for data modeling, view logic, template design, authentication flow, and deployment configuration.\n\n[Marco: add any specific technical decisions or team context if applicable]",
-      "biggest_challenge": "Designing the data model for the skill matching system without over-engineering it. The first version had a complex many-to-many relationship that made queries difficult. Refactoring to a simpler Interest model with foreign keys to both listing and user cleaned up the ORM queries significantly.\n\n[Marco: replace with your real challenge from this project]",
-      "what_i_learned": "Django's class-based views and the ORM are genuinely powerful when you work with them rather than around them. My biggest productivity gain came from leaning into mixins (LoginRequiredMixin, UserPassesTestMixin) instead of writing manual permission checks in every view.\n\n[Marco: add your specific learnings]",
-      "image": null,
-      "github_url": "https://github.com/marcodila/campus-skillswap",
-      "demo_url": "",
-      "order": 6,
-      "is_featured": false,
-      "created_at": "2025-01-01T00:00:00Z"
-    }
+{
+  "model": "projects.project",
+  "pk": 1,
+  "fields": {
+    "title": "RAG Portfolio Chatbot",
+    "slug": "rag-portfolio-chatbot",
+    "category": "chatbot",
+    "one_sentence_summary": "A production-ready Retrieval-Augmented Generation chatbot embedded in this Django portfolio that answers questions about Marco's background, projects, and skills in real time.",
+    "business_problem": "Recruiters and hiring managers spend limited time on portfolio sites before moving on. A static site forces them to hunt for the information they need. The business problem: how do you give every visitor an on-demand, intelligent guide to your portfolio without manual effort?\r\n\r\nThis chatbot solves that by combining a curated knowledge base with a RAG pipeline — so visitors can ask natural-language questions and get precise, grounded answers rather than scrolling through pages.",
+    "tools_used": [
+      "Python",
+      "Django",
+      "LangChain",
+      "FAISS",
+      "OpenAI GPT-4o-mini",
+      "text-embedding-3-small",
+      "JavaScript (AJAX)",
+      "Bootstrap 5"
+    ],
+    "key_features": [
+      "RAG pipeline: documents are chunked, embedded with OpenAI text-embedding-3-small, and stored in a FAISS vector index",
+      "LangChain RetrievalQA chain with a custom system prompt tuned to Marco's portfolio context",
+      "Dual interface: full-page chat at /chat/ and a floating widget available on every page",
+      "Session persistence via UUID stored in localStorage — conversation context carries across page navigation",
+      "Rate limiting: max 20 messages per session enforced server-side (HTTP 429 response)",
+      "Full audit trail: every user message and assistant reply saved to ChatMessage model in Django",
+      "FAISS index rebuilt on every Render deploy via custom management command (build_rag_index)",
+      "Zero CDN dependency for the AI stack — all inference via OpenAI API"
+    ],
+    "role_and_contribution": "Solo project — designed and built end-to-end. Responsibilities included:\r\n\r\n- Architecting the knowledge base (5 Markdown files covering background, projects, skills, career, and site navigation)\r\n- Building the LangChain RAG chain with a custom PromptTemplate\r\n- Implementing the Django JSON API endpoint with session tracking and rate limiting\r\n- Writing the AJAX-powered chat widget (widget + full-page view)\r\n- Configuring Render deployment with the FAISS rebuild step in build.sh",
+    "biggest_challenge": "Making the RAG system give grounded, accurate answers about a real person without hallucinating. Early iterations of the system prompt would sometimes fabricate details not present in the knowledge base.\r\n\r\nThe solution was two-fold: (1) a tightly scoped system prompt with an explicit 'if you don't know, say so' instruction, and (2) careful chunking of the knowledge base with 50-token overlap so context windows don't split mid-sentence during retrieval.",
+    "what_i_learned": "RAG is deceptively simple to demo and genuinely hard to get right. The quality of the knowledge base content matters far more than the model choice — a well-written, structured Markdown file retrieves better than an unstructured data dump.\r\n\r\nI also deepened my understanding of LangChain's retrieval abstractions and the tradeoffs between different vector store backends. FAISS is fast and free but requires manual persistence; a managed vector DB would be the right call for a multi-user production system.",
+    "image": "projects/Que-es-un-chatbot-y-para-que-sirve2.jpg",
+    "github_url": "https://github.com/marcodila/Portfolio_Project.git",
+    "demo_url": "",
+    "order": 1,
+    "is_featured": true,
+    "created_at": "2025-01-01T00:00:00Z"
   }
+},
+{
+  "model": "projects.project",
+  "pk": 2,
+  "fields": {
+    "title": "n8n Automated Agent Workflow",
+    "slug": "n8n-agent-workflow",
+    "category": "workflow",
+    "one_sentence_summary": "A no-code/low-code automation workflow built in n8n that chains AI tools, APIs, and data sources to execute a multi-step business process end-to-end without manual intervention.",
+    "business_problem": "Many business workflows involve repetitive, multi-step processes — pulling data from one source, transforming it, routing it through an AI model, and pushing results somewhere else. Manually executing these chains is slow, error-prone, and doesn't scale.\r\n\r\nThis project demonstrates how n8n's visual workflow builder can automate a real business process, with AI nodes (Google Gemini / OpenAI) embedded at the decision points where intelligence is actually needed.",
+    "tools_used": [
+      "n8n",
+      "Google AI Studio",
+      "OpenAI API",
+      "REST APIs",
+      "Webhooks",
+      "JavaScript (n8n expressions)",
+      "JSON"
+    ],
+    "key_features": [
+      "Multi-step workflow triggered by a webhook or schedule",
+      "AI node integrated at a key decision point (classification, summarization, or extraction)",
+      "Data transformation between steps using n8n's built-in expression engine",
+      "Error handling and retry logic configured at each node",
+      "Output routed to a destination (email, spreadsheet, database, or Slack) automatically",
+      "[Marco: add the specific use case and any additional nodes from your actual workflow]"
+    ],
+    "role_and_contribution": "Solo project — designed the workflow architecture, configured each n8n node, wrote any custom JavaScript expressions, and integrated the AI provider.\r\n\r\n[Marco: add specific context about what the workflow does and what business scenario it addresses]",
+    "biggest_challenge": "Handling edge cases in the data flowing between nodes — n8n's expression engine is powerful but requires careful attention to data types and nullability. Debugging a 12-node workflow when a transformation fails mid-chain required building in intermediate logging nodes early.\r\n\r\n[Marco: replace with your actual biggest challenge from this project]",
+    "what_i_learned": "Visual workflow builders are underrated by engineers who default to writing code for everything. n8n allowed me to prototype and iterate on a multi-step AI workflow in hours rather than days. The key insight: use code nodes only for logic that the visual interface can't express cleanly.\r\n\r\n[Marco: add your specific learnings]",
+    "image": "projects/n8n-icon.webp",
+    "github_url": "https://github.com/marcodila/HandyMan2.git",
+    "demo_url": "",
+    "order": 2,
+    "is_featured": true,
+    "created_at": "2025-01-01T00:00:00Z"
+  }
+},
+{
+  "model": "projects.project",
+  "pk": 3,
+  "fields": {
+    "title": "LangChain Conversational Agent",
+    "slug": "langchain-agent",
+    "category": "langchain",
+    "one_sentence_summary": "A tool-augmented LangChain agent that can reason over multiple data sources and take actions — going beyond simple chat to complete multi-step tasks autonomously.",
+    "business_problem": "Standard chatbots answer questions but cannot take actions or access live data. This project explores the agent paradigm: an LLM with access to a curated set of tools (web search, document retrieval, calculation) that can plan and execute multi-step tasks to accomplish a goal.\r\n\r\nThe business motivation: many knowledge-worker tasks involve gathering information from multiple sources, synthesizing it, and producing an output — exactly what a well-designed agent can automate.",
+    "tools_used": [
+      "Python",
+      "LangChain",
+      "OpenAI GPT-4o-mini",
+      "LangChain Tools",
+      "FAISS",
+      "Pydantic",
+      "python-dotenv"
+    ],
+    "key_features": [
+      "ReAct-style agent loop: Reason → Act → Observe until the task is complete",
+      "Custom tool definitions with Pydantic input schemas for type safety",
+      "Conversation memory using LangChain's ConversationBufferMemory",
+      "Streaming output support for real-time response display",
+      "Graceful fallback when a tool call fails or returns no results",
+      "[Marco: describe the specific tools you built and the use case]"
+    ],
+    "role_and_contribution": "Solo project — designed the agent architecture, defined the tool schemas, wrote the agent executor logic, and built the demonstration interface.\r\n\r\n[Marco: add specifics about your actual agent's purpose and any unique implementation decisions]",
+    "biggest_challenge": "Agent reliability — getting the model to reliably select the right tool for a given sub-task and stop looping when it has enough information. Early versions would over-call tools or get stuck in reasoning loops when a tool returned ambiguous output.\r\n\r\nThe fix: strict tool descriptions, explicit stop conditions in the prompt, and a max_iterations guard on the executor.\r\n\r\n[Marco: replace with your real challenge]",
+    "what_i_learned": "Agent design is fundamentally about prompt engineering and tool design, not model choice. The single biggest improvement came from rewriting tool descriptions to be explicit about when NOT to use each tool — which immediately reduced spurious tool calls.\r\n\r\n[Marco: add your key takeaways]",
+    "image": "",
+    "github_url": "https://github.com/marcodila/Learning_Log_Project.git",
+    "demo_url": "",
+    "order": 3,
+    "is_featured": true,
+    "created_at": "2025-01-01T00:00:00Z"
+  }
+},
+{
+  "model": "projects.project",
+  "pk": 4,
+  "fields": {
+    "title": "Google AI Studio Media Generation",
+    "slug": "google-ai-studio-media",
+    "category": "media",
+    "one_sentence_summary": "An AI-powered media generation pipeline built with Google AI Studio that produces structured content assets from a minimal input prompt.",
+    "business_problem": "Content creation is one of the highest-volume, most time-consuming tasks in modern marketing and communications workflows. This project explores how Google AI Studio's multimodal models can be used to generate structured media assets — reducing the time from brief to draft by 80%+.\r\n\r\n[Marco: replace with your specific use case — script generation, image prompting, video storyboard, etc.]",
+    "tools_used": [
+      "Google AI Studio",
+      "Gemini Pro",
+      "Python",
+      "Google Generative AI SDK",
+      "Markdown",
+      "Jupyter Notebook"
+    ],
+    "key_features": [
+      "Prompt engineering workflow for consistent, structured output from Gemini Pro",
+      "Multi-turn conversation to iteratively refine generated content",
+      "Output parsing and formatting pipeline for downstream use",
+      "Comparison of different prompt strategies and their output quality",
+      "[Marco: add specific features from your actual project]"
+    ],
+    "role_and_contribution": "Solo project — designed the prompting strategy, built the generation pipeline, and documented the output evaluation methodology.\r\n\r\n[Marco: replace with specifics from your actual Google AI Studio project]",
+    "biggest_challenge": "Prompt consistency — getting the model to produce reliably structured output across varied input topics without explicit output format enforcement. The solution involved few-shot examples in the system prompt and post-processing to normalize the output.\r\n\r\n[Marco: replace with your real challenge]",
+    "what_i_learned": "Google AI Studio's Gemini Pro excels at structured content generation when given explicit output format instructions. I also learned that model temperature dramatically affects creative output — lower values for structured tasks, higher for ideation.\r\n\r\n[Marco: add your real learnings]",
+    "image": "",
+    "github_url": "https://github.com/marcodila/google-ai-studio-media",
+    "demo_url": "",
+    "order": 4,
+    "is_featured": true,
+    "created_at": "2025-01-01T00:00:00Z"
+  }
+},
+{
+  "model": "projects.project",
+  "pk": 5,
+  "fields": {
+    "title": "Machine Learning with scikit-learn",
+    "slug": "machine-learning-scikit-learn",
+    "category": "ml",
+    "one_sentence_summary": "A supervised machine learning pipeline built with scikit-learn that predicts [target variable] from [dataset], with full feature engineering, model selection, and evaluation reporting.",
+    "business_problem": "Predictive modeling is at the core of data-driven business decisions. This project applies classical machine learning — not deep learning — to a structured dataset with a real business question: given observable features, can we reliably predict an outcome before it happens?\r\n\r\n[Marco: replace with the specific prediction problem your ML project addresses — churn, pricing, credit risk, etc.]",
+    "tools_used": [
+      "Python",
+      "scikit-learn",
+      "pandas",
+      "NumPy",
+      "Matplotlib",
+      "Seaborn",
+      "Jupyter Notebook",
+      "joblib"
+    ],
+    "key_features": [
+      "Exploratory Data Analysis (EDA) with distribution plots and correlation heatmaps",
+      "Feature engineering: encoding, scaling, and interaction terms",
+      "Model comparison: Logistic Regression, Random Forest, Gradient Boosting",
+      "Cross-validation with stratified k-fold to prevent data leakage",
+      "Evaluation: confusion matrix, ROC-AUC, precision-recall, feature importance",
+      "Model serialization with joblib for deployment",
+      "[Marco: add specifics from your actual ML project]"
+    ],
+    "role_and_contribution": "Solo project — end-to-end ownership from data cleaning through model deployment. Responsible for all EDA, feature engineering, model selection, and evaluation.\r\n\r\n[Marco: add the specific dataset and business context]",
+    "biggest_challenge": "Class imbalance in the target variable — the naive model achieved high accuracy by predicting the majority class almost exclusively. Solved using SMOTE oversampling during training and recalibrating evaluation to focus on recall and F1-score rather than raw accuracy.\r\n\r\n[Marco: replace with your real challenge]",
+    "what_i_learned": "Model selection matters less than feature engineering. Spending twice as long on the feature engineering phase and reducing model comparison effort produced better final performance than the reverse approach. Also: always check for data leakage before celebrating a high validation score.\r\n\r\n[Marco: add your specific learnings]",
+    "image": "projects/Hey_Machine_Learning_Logo.png",
+    "github_url": "https://github.com/marcodila/ml.git",
+    "demo_url": "",
+    "order": 5,
+    "is_featured": true,
+    "created_at": "2025-01-01T00:00:00Z"
+  }
+},
+{
+  "model": "projects.project",
+  "pk": 6,
+  "fields": {
+    "title": "Campus SkillSwap — Django Web App",
+    "slug": "campus-skillswap",
+    "category": "web",
+    "one_sentence_summary": "A full-stack Django web application that connects university students to exchange skills peer-to-peer — think Craigslist for campus skills, with authentication, search, and messaging.",
+    "business_problem": "University campuses are full of students with complementary skills — a data science student who needs help with graphic design, a marketing student who wants to learn Python. There's no structured platform to facilitate these exchanges at scale.\r\n\r\nCampus SkillSwap addresses this by providing a marketplace where students can list skills they offer and skills they want, find matches, and coordinate exchanges through an in-app messaging system.",
+    "tools_used": [
+      "Python",
+      "Django",
+      "SQLite / PostgreSQL",
+      "Bootstrap 5",
+      "JavaScript",
+      "Django ORM",
+      "Django Auth",
+      "Pillow"
+    ],
+    "key_features": [
+      "User authentication: registration, login, profile management with avatar upload",
+      "Skill listing CRUD: create, edit, and delete skill offers and requests",
+      "Search and filter: find skills by category, availability, and keyword",
+      "Match system: express interest in another student's skill listing",
+      "In-app messaging: direct messages between matched users",
+      "Django admin panel for moderation and user management",
+      "Responsive design with Bootstrap 5 for mobile-first access"
+    ],
+    "role_and_contribution": "Solo project — full-stack development from initial ERD through deployment. Responsible for data modeling, view logic, template design, authentication flow, and deployment configuration.\r\n\r\n[Marco: add any specific technical decisions or team context if applicable]",
+    "biggest_challenge": "Designing the data model for the skill matching system without over-engineering it. The first version had a complex many-to-many relationship that made queries difficult. Refactoring to a simpler Interest model with foreign keys to both listing and user cleaned up the ORM queries significantly.\r\n\r\n[Marco: replace with your real challenge from this project]",
+    "what_i_learned": "Django's class-based views and the ORM are genuinely powerful when you work with them rather than around them. My biggest productivity gain came from leaning into mixins (LoginRequiredMixin, UserPassesTestMixin) instead of writing manual permission checks in every view.\r\n\r\n[Marco: add your specific learnings]",
+    "image": "projects/Webapp.avif",
+    "github_url": "https://github.com/marcodila/campus_skillswap.git",
+    "demo_url": "",
+    "order": 6,
+    "is_featured": true,
+    "created_at": "2025-01-01T00:00:00Z"
+  }
+},
+{
+  "model": "projects.project",
+  "pk": 7,
+  "fields": {
+    "title": "Equity Research Analysis",
+    "slug": "equity-research-analysis",
+    "category": "equity_research",
+    "one_sentence_summary": "Equity Research sample for Investment Pitch",
+    "business_problem": "The core business problem involved optimizing portfolio performance for Baylor University’s endowment fund by identifying high-conviction investment opportunities within the IT – Software & Services sector. This required balancing long-term capital appreciation with risk management, while incorporating macroeconomic trends, evolving technology landscapes (particularly AI and cloud computing), and capital market conditions into actionable investment decisions.",
+    "tools_used": [
+      "Excel",
+      "Financial Modeling",
+      "Factset",
+      "Bloomberg"
+    ],
+    "key_features": [
+      "Full financial valuation created from scratch",
+      "Full pitch deck"
+    ],
+    "role_and_contribution": "In my role, I was responsible for conducting in-depth fundamental analysis on target companies, building financial models, and delivering investment recommendations to the endowment team. I played a key role in identifying and executing a strategic portfolio addition that contributed to generating a return exceeding 30%, demonstrating strong alignment between research insights and investment performance.",
+    "biggest_challenge": "The biggest challenge was navigating the rapidly evolving technology sector, particularly assessing the sustainability of growth driven by AI and distinguishing between short-term hype and long-term value creation. This required continuously updating assumptions, validating data sources, and stress-testing models under different macroeconomic scenarios to ensure investment decisions remained robust.",
+    "what_i_learned": "Through this experience, I developed a stronger ability to connect macroeconomic trends with company-level financial performance and translate that into investment strategy. I also enhanced my technical skills in valuation and data analysis, while improving my ability to communicate complex ideas clearly to stakeholders. Most importantly, I learned how disciplined, research-driven decision-making directly impacts portfolio outcomes in a real-world asset management setting.",
+    "image": "projects/Bull.jpeg",
+    "github_url": "",
+    "demo_url": "",
+    "order": 7,
+    "is_featured": true,
+    "created_at": "2026-05-08T02:25:57.604Z"
+  }
+},
+{
+  "model": "projects.project",
+  "pk": 8,
+  "fields": {
+    "title": "Equity Analysis App",
+    "slug": "equity-analysis-app",
+    "category": "quant",
+    "one_sentence_summary": "A REST API built with Flask that fetches live stock prices from Alpha Vantage, persists them in SQLite, and computes rolling average daily returns on demand.",
+    "business_problem": "Investors and analysts often need programmatic access to processed price data without paying for expensive data vendors — this app provides a self-hosted, lightweight alternative that fetches, stores, and summarizes daily return trends for any publicly traded equity.",
+    "tools_used": [
+      "Python",
+      "Flask",
+      "SQLite",
+      "Requests",
+      "Gunicorn",
+      "Alpha Vantage API"
+    ],
+    "key_features": [
+      "Live price ingestion from Alpha Vantage with graceful error handling for rate limits and bad tickers",
+      "Persistent local storage of historical close prices to minimize redundant API calls",
+      "Rolling average daily return calculation with configurable window"
+    ],
+    "role_and_contribution": "Designed the API architecture, implemented all data fetching, storage, and computation logic, and configured the full deployment pipeline to Render.",
+    "biggest_challenge": "Ensuring the database initializes correctly when the app is served via Gunicorn rather than Python directly — if __name__ == \"__main__\" never executes under a WSGI server, so init_db() had to be moved to an app-context startup hook to avoid cold-start failures in production.",
+    "what_i_learned": "How WSGI servers like Gunicorn change the Python execution context relative to running a script directly, and how to structure Flask apps so initialization logic runs regardless of how the process is launched.",
+    "image": "projects/Stock.jpeg",
+    "github_url": "https://github.com/marcodila/stock-analysis-app.git",
+    "demo_url": "",
+    "order": 8,
+    "is_featured": true,
+    "created_at": "2026-05-08T03:18:46.075Z"
+  }
+},
+{
+  "model": "projects.project",
+  "pk": 9,
+  "fields": {
+    "title": "Big XII Championship Case Analysis",
+    "slug": "big-xii-championship-case-analysis",
+    "category": "case_competition",
+    "one_sentence_summary": "Big XII Case",
+    "business_problem": "Weave is a high-retention, cash-burning growth-stage SaaS company with 25,000 customers but meaningful concentration risk in the SMB dental/optometry segment — the core question was whether its $821M market cap reflects a business with a credible path to profitability and TAM expansion, or a structural ceiling.",
+    "tools_used": [
+      "Powerpoint",
+      "Factset",
+      "Case Team",
+      "Excel"
+    ],
+    "key_features": [
+      "Full deck for our presentation"
+    ],
+    "role_and_contribution": "Conducted company research, built the market sizing analysis, identified strategic weaknesses and growth levers, and developed the forward-looking recommendations and target metrics.",
+    "biggest_challenge": "Reconciling Weave's strong retention metrics (~92% retention, $54K LTV) and revenue growth with its persistent net losses — framing a credible bull case without overstating the path to profitability for a company still heavily dependent on one narrow customer segment.",
+    "what_i_learned": "How to structure a top-down market sizing argument that connects macro Healthcare IT trends down to a realistic serviceable market, and how to evaluate a growth-stage SaaS company where traditional profitability metrics don't yet apply but unit economics (CAC, LTV, retention) tell the real story.",
+    "image": "projects/Big_12_Conference_cropped_logo.svg.png",
+    "github_url": "",
+    "demo_url": "",
+    "order": 9,
+    "is_featured": true,
+    "created_at": "2026-05-08T03:27:12.409Z"
+  }
+},
+{
+  "model": "projects.project",
+  "pk": 10,
+  "fields": {
+    "title": "Roamin — Running-Integrated Hotel Booking App",
+    "slug": "roamin-running-integrated-hotel-booking-app",
+    "category": "hackathon",
+    "one_sentence_summary": "A travel app that integrates hotel booking with curated running routes, allowing fitness-focused travelers to find and book accommodations matched to safe, scenic trails near their destination.",
+    "business_problem": "71% of active travelers struggle to find safe and scenic running routes near their hotels, yet no booking platform addresses this — forcing runners to cross-reference Strava, AllTrails, and hotel sites manually before every trip, with no guarantee the hotel they book is anywhere near a viable route.",
+    "tools_used": [
+      "Powerpoint",
+      "Excel",
+      "SwiftUI",
+      "Python",
+      "Java"
+    ],
+    "key_features": [
+      "Hotel search and booking filtered by proximity to running trails and route quality",
+      "Trail maps with map overlays and city heatmaps surfacing popular running corridors",
+      "Gemini AI curation for personalized route recommendations"
+    ],
+    "role_and_contribution": "Co-creator — led user research design and execution (84 respondents), built the market sizing framework (TAM $195B → SOM $11.7M–$58.5M), developed the business model across three revenue streams, and contributed to the product feature roadmap and pitch narrative.",
+    "biggest_challenge": "Validating that the intersection of two large markets — wellness travel and fitness apps — represented a real underserved niche rather than a feature someone like Booking.com could bolt on, and building a market sizing argument that justified the opportunity without overstating Roamin's early capture potential.",
+    "what_i_learned": "How to conduct primary user research to quantify a problem (71% struggle rate, 96% interest rate) and translate raw survey data into a compelling investment narrative, and how to structure a dual-sided business model that monetizes both the booking transaction and recurring subscription without cannibalizing either revenue stream.",
+    "image": "projects/sports-running-icon-2.png",
+    "github_url": "",
+    "demo_url": "",
+    "order": 10,
+    "is_featured": true,
+    "created_at": "2026-05-08T03:31:28.957Z"
+  }
+},
+{
+  "model": "projects.projectfile",
+  "pk": 1,
+  "fields": {
+    "project": 7,
+    "label": "Presentation Deck",
+    "file": "project_files/IT_-_Software__Services_Round_2.pptx",
+    "order": 1
+  }
+},
+{
+  "model": "projects.projectfile",
+  "pk": 2,
+  "fields": {
+    "project": 7,
+    "label": "Intuit Valuation",
+    "file": "project_files/INTUIT_-_DCF_V3.xlsx",
+    "order": 3
+  }
+},
+{
+  "model": "projects.projectfile",
+  "pk": 3,
+  "fields": {
+    "project": 7,
+    "label": "Synopsys Valuation",
+    "file": "project_files/snps_model_v2.xlsx",
+    "order": 2
+  }
+},
+{
+  "model": "projects.projectfile",
+  "pk": 4,
+  "fields": {
+    "project": 9,
+    "label": "Weave Deck",
+    "file": "project_files/Weave_Presentation.pptx",
+    "order": 1
+  }
+},
+{
+  "model": "projects.projectfile",
+  "pk": 5,
+  "fields": {
+    "project": 10,
+    "label": "Roamin Deck",
+    "file": "project_files/Roamin.pptx",
+    "order": 1
+  }
+},
+{
+  "model": "core.skill",
+  "pk": 1,
+  "fields": {
+    "name": "Excel / Financial Modeling",
+    "category": "business",
+    "proficiency": 90,
+    "icon_class": "bi bi-file-earmark-spreadsheet",
+    "order": 2
+  }
+},
+{
+  "model": "core.skill",
+  "pk": 2,
+  "fields": {
+    "name": "Python",
+    "category": "languages",
+    "proficiency": 85,
+    "icon_class": "bi bi-filetype-py",
+    "order": 1
+  }
+},
+{
+  "model": "core.skill",
+  "pk": 3,
+  "fields": {
+    "name": "Django",
+    "category": "languages",
+    "proficiency": 85,
+    "icon_class": "bi bi-server",
+    "order": 11
+  }
+},
+{
+  "model": "core.skill",
+  "pk": 4,
+  "fields": {
+    "name": "SQL",
+    "category": "languages",
+    "proficiency": 85,
+    "icon_class": "bi bi-database",
+    "order": 10
+  }
+},
+{
+  "model": "core.skill",
+  "pk": 5,
+  "fields": {
+    "name": "LangChain",
+    "category": "ai_ml",
+    "proficiency": 80,
+    "icon_class": "bi bi-cpu",
+    "order": 5
+  }
+},
+{
+  "model": "core.skill",
+  "pk": 6,
+  "fields": {
+    "name": "FAISS",
+    "category": "ai_ml",
+    "proficiency": 75,
+    "icon_class": "bi bi-search",
+    "order": 6
+  }
+},
+{
+  "model": "core.skill",
+  "pk": 7,
+  "fields": {
+    "name": "LLM APIs",
+    "category": "ai_ml",
+    "proficiency": 85,
+    "icon_class": "bi bi-stars",
+    "order": 4
+  }
+},
+{
+  "model": "core.skill",
+  "pk": 8,
+  "fields": {
+    "name": "scikit-learn",
+    "category": "ai_ml",
+    "proficiency": 80,
+    "icon_class": "bi bi-graph-up",
+    "order": 7
+  }
+},
+{
+  "model": "core.skill",
+  "pk": 9,
+  "fields": {
+    "name": "n8n",
+    "category": "ai_ml",
+    "proficiency": 85,
+    "icon_class": "bi bi-diagram-3",
+    "order": 8
+  }
+},
+{
+  "model": "core.skill",
+  "pk": 10,
+  "fields": {
+    "name": "Tableau",
+    "category": "data",
+    "proficiency": 90,
+    "icon_class": "bi bi-bar-chart",
+    "order": 9
+  }
+},
+{
+  "model": "core.skill",
+  "pk": 11,
+  "fields": {
+    "name": "Portfolio Management",
+    "category": "business",
+    "proficiency": 85,
+    "icon_class": "bi bi-briefcase",
+    "order": 0
+  }
+},
+{
+  "model": "core.skill",
+  "pk": 12,
+  "fields": {
+    "name": "Bloomberg / Factset",
+    "category": "business",
+    "proficiency": 90,
+    "icon_class": "bi bi-bank",
+    "order": 2
+  }
+}
 ]
