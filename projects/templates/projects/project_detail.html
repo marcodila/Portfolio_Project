@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}{{ project.title }} — Marco Di Laudo{% endblock %}
 {% block meta_description %}{{ project.one_sentence_summary }}{% endblock %}
@@ -48,9 +49,9 @@
       <div class="col-lg-8">
 
         <!-- 9. Screenshot / Visual -->
-        {% if project.image %}
+        {% if project.static_image_name %}
         <div class="mb-5">
-          <img src="{{ project.image.url }}" alt="{{ project.title }} screenshot"
+          <img src="{% static 'img/projects/' %}{{ project.static_image_name }}" alt="{{ project.title }} screenshot"
                style="width: 100%; border-radius: var(--radius); border: 1px solid var(--border);" />
         </div>
         {% endif %}

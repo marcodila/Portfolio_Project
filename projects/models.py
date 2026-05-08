@@ -48,6 +48,13 @@ class Project(models.Model):
     def get_absolute_url(self):
         return reverse('projects:detail', kwargs={'slug': self.slug})
 
+    @property
+    def static_image_name(self):
+        """Filename only, for WhiteNoise static fallback in templates."""
+        if self.image:
+            return os.path.basename(self.image.name)
+        return None
+
 
 class ProjectFile(models.Model):
     """
