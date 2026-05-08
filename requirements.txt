@@ -10,3 +10,5 @@ langchain-google-genai>=1.0
 langchain-community>=0.2
 langchain-text-splitters>=0.2
 faiss-cpu
+cloudinary
+django-cloudinary-storage

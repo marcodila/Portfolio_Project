@@ -23,6 +23,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'cloudinary_storage',
+    'cloudinary',
     # Local apps
     'core',
     'projects',
@@ -87,3 +89,9 @@ DATA_UPLOAD_MAX_MEMORY_SIZE = 52428800   # 50MB
 FILE_UPLOAD_MAX_MEMORY_SIZE = 52428800   # 50MB
 
 GEMINI_KEY = os.environ.get('GEMINI_KEY', '')
+
+# Cloudinary — used for persistent media storage (project images, file uploads)
+# Falls back to local filesystem in dev if CLOUDINARY_URL is not set
+CLOUDINARY_URL = os.environ.get('CLOUDINARY_URL', '')
+if CLOUDINARY_URL:
+    DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
